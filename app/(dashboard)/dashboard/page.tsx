@@ -1,48 +1,29 @@
-"use client"
+"use client";
 
-import { useState } from 'react';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Button } from '@/components/ui/button';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
-import { Badge } from '@/components/ui/badge';
-import { PenLine, Eye, MessageSquare } from 'lucide-react';
-import Link from 'next/link';
-import { Blog, BlogFilter } from '@/lib/types/blog';
-
-// Temporary mock data
-const mockBlogs: Blog[] = [
-  {
-    id: '1',
-    title: 'Getting Started with Next.js',
-    tagline: 'A comprehensive guide to Next.js',
-    content: '...',
-    status: 'published',
-    tags: ['nextjs', 'react', 'webdev'],
-    view_count: 1200,
-    comment_count: 8,
-    author_id: '1',
-    created_at: '2024-01-01',
-    updated_at: '2024-01-01',
-    published_at: '2024-01-01',
-    platforms: {
-      medium: true,
-      hashnode: true,
-    },
-  },
-  // Add more mock blogs as needed
-];
+import { useState } from "react";
+import Link from "next/link";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Button } from "@/components/ui/button";
+import { BlogFilters } from "@/components/dashboard/blog-filters";
+import { BlogCard } from "@/components/dashboard/blog-card";
+import { useBlogs } from "@/lib/hooks/use-blogs";
+import { PenLine } from "lucide-react";
 
 export default function DashboardPage() {
-  const [filter, setFilter] = useState<BlogFilter>({
-    status: 'published',
-    sortBy: 'newest',
+  const [activeTab, setActiveTab] = useState<
+    "published" | "draft" | "scheduled"
+  >("published");
+  const { blogs, isLoading, filter, setFilter, availableTags } = useBlogs({
+    status: activeTab,
   });
+
+  const handleTabChange = (value: string) => {
+    setActiveTab(value as "published" | "draft" | "scheduled");
+    setFilter({
+      ...filter,
+      status: value as "published" | "draft" | "scheduled",
+    });
+  };
 
   return (
     <div className="p-6 max-w-7xl mx-auto">
@@ -56,84 +37,46 @@ export default function DashboardPage() {
         </Button>
       </div>
 
-      <Tabs defaultValue="published" className="space-y-4">
+      <Tabs
+        value={activeTab}
+        onValueChange={handleTabChange}
+        className="space-y-4"
+      >
         <div className="flex justify-between items-center">
           <TabsList>
             <TabsTrigger value="published">Published</TabsTrigger>
             <TabsTrigger value="drafts">Drafts</TabsTrigger>
           </TabsList>
 
-          <div className="flex items-center gap-4">
-            <Select
-              value={filter.sortBy}
-              onValueChange={(value: any) =>
-                setFilter({ ...filter, sortBy: value })
-              }
-            >
-              <SelectTrigger className="w-[180px]">
-                <SelectValue placeholder="Sort by" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="newest">Newest First</SelectItem>
-                <SelectItem value="oldest">Oldest First</SelectItem>
-                <SelectItem value="popular">Most Popular</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
+          <BlogFilters
+            filter={filter}
+            onFilterChange={setFilter}
+            availableTags={availableTags}
+          />
         </div>
 
         <TabsContent value="published" className="space-y-4">
-          {mockBlogs.map((blog) => (
-            <div
-              key={blog.id}
-              className="p-6 border rounded-lg bg-card hover:shadow-sm transition-shadow"
-            >
-              <div className="flex justify-between items-start">
-                <div>
-                  <h2 className="text-xl font-semibold mb-2">
-                    <Link
-                      href={`/dashboard/edit/${blog.id}`}
-                      className="hover:underline"
-                    >
-                      {blog.title}
-                    </Link>
-                  </h2>
-                  <p className="text-muted-foreground mb-4">{blog.tagline}</p>
-                  <div className="flex items-center gap-4 text-sm text-muted-foreground">
-                    <span className="flex items-center">
-                      <Eye className="mr-1 h-4 w-4" />
-                      {blog.view_count} views
-                    </span>
-                    <span className="flex items-center">
-                      <MessageSquare className="mr-1 h-4 w-4" />
-                      {blog.comment_count} comments
-                    </span>
-                  </div>
-                </div>
-                <div className="flex flex-col items-end gap-2">
-                  <div className="flex gap-2">
-                    {blog.platforms.medium && (
-                      <Badge variant="secondary">Medium</Badge>
-                    )}
-                    {blog.platforms.hashnode && (
-                      <Badge variant="secondary">Hashnode</Badge>
-                    )}
-                  </div>
-                  <div className="flex gap-2">
-                    {blog.tags.map((tag) => (
-                      <Badge key={tag} variant="outline">
-                        {tag}
-                      </Badge>
-                    ))}
-                  </div>
-                </div>
-              </div>
+          {isLoading ? (
+            <div className="text-center text-muted-foreground">Loading...</div>
+          ) : blogs.length === 0 ? (
+            <div className="text-center text-muted-foreground">
+              No published blogs found
             </div>
-          ))}
+          ) : (
+            blogs.map((blog) => <BlogCard key={blog.id} blog={blog} />)
+          )}
         </TabsContent>
 
-        <TabsContent value="drafts">
-          {/* Similar structure for drafts */}
+        <TabsContent value="drafts" className="space-y-4">
+          {isLoading ? (
+            <div className="text-center text-muted-foreground">Loading...</div>
+          ) : blogs.length === 0 ? (
+            <div className="text-center text-muted-foreground">
+              No drafts found
+            </div>
+          ) : (
+            blogs.map((blog) => <BlogCard key={blog.id} blog={blog} />)
+          )}
         </TabsContent>
       </Tabs>
     </div>

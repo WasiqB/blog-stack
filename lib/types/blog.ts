@@ -4,7 +4,7 @@ export interface Blog {
   tagline?: string;
   content: string;
   image_url?: string;
-  status: 'draft' | 'published';
+  status: "draft" | "published" | "scheduled";
   tags: string[];
   view_count: number;
   comment_count: number;
@@ -12,6 +12,7 @@ export interface Blog {
   created_at: string;
   updated_at: string;
   published_at?: string;
+  scheduled_for?: string;
   platforms: {
     medium?: boolean;
     hashnode?: boolean;
@@ -19,7 +20,7 @@ export interface Blog {
 }
 
 export interface BlogFilter {
-  status?: 'draft' | 'published';
+  status?: "draft" | "published" | "scheduled";
   tags?: string[];
-  sortBy?: 'newest' | 'oldest' | 'popular';
+  sortBy?: "newest" | "oldest" | "popular";
 }
