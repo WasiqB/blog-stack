@@ -1,10 +1,10 @@
-"use client";
+"use client"
 
-import Link from "next/link";
-import { Badge } from "@/components/ui/badge";
-import { Eye, MessageSquare } from "lucide-react";
-import { Blog } from "@/lib/types/blog";
-import { format } from "date-fns";
+import Link from 'next/link';
+import { Badge } from '@/components/ui/badge';
+import { Eye, MessageSquare } from 'lucide-react';
+import { Blog } from '@/lib/types/blog';
+import { format } from 'date-fns';
 
 interface BlogCardProps {
   blog: Blog;
@@ -33,12 +33,16 @@ export function BlogCard({ blog }: BlogCardProps) {
               <MessageSquare className="mr-1 h-4 w-4" />
               {blog.comment_count} comments
             </span>
-            <span>{format(new Date(blog.created_at), "MMM d, yyyy")}</span>
+            <span>
+              {format(new Date(blog.created_at), 'MMM d, yyyy')}
+            </span>
           </div>
         </div>
         <div className="flex flex-col items-end gap-2">
           <div className="flex gap-2">
-            {blog.platforms.medium && <Badge variant="secondary">Medium</Badge>}
+            {blog.platforms.medium && (
+              <Badge variant="secondary">Medium</Badge>
+            )}
             {blog.platforms.hashnode && (
               <Badge variant="secondary">Hashnode</Badge>
             )}

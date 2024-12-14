@@ -1,14 +1,14 @@
-"use client";
+"use client"
 
-import { Badge } from "@/components/ui/badge";
+import { Badge } from '@/components/ui/badge';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
-import { BlogFilter } from "@/lib/types/blog";
+} from '@/components/ui/select';
+import { BlogFilter } from '@/lib/types/blog';
 
 interface BlogFiltersProps {
   filter: BlogFilter;
@@ -16,17 +16,13 @@ interface BlogFiltersProps {
   availableTags: string[];
 }
 
-export function BlogFilters({
-  filter,
-  onFilterChange,
-  availableTags,
-}: BlogFiltersProps) {
+export function BlogFilters({ filter, onFilterChange, availableTags }: BlogFiltersProps) {
   const handleTagClick = (tag: string) => {
     const currentTags = filter.tags || [];
     const newTags = currentTags.includes(tag)
-      ? currentTags.filter((t) => t !== tag)
+      ? currentTags.filter(t => t !== tag)
       : [...currentTags, tag];
-
+    
     onFilterChange({
       ...filter,
       tags: newTags.length > 0 ? newTags : undefined,
@@ -37,7 +33,7 @@ export function BlogFilters({
     <div className="space-y-4">
       <div className="flex items-center gap-4">
         <Select
-          value={filter.sortBy || "newest"}
+          value={filter.sortBy || 'newest'}
           onValueChange={(value: any) =>
             onFilterChange({ ...filter, sortBy: value })
           }
@@ -60,7 +56,7 @@ export function BlogFilters({
             {availableTags.map((tag) => (
               <Badge
                 key={tag}
-                variant={filter.tags?.includes(tag) ? "default" : "outline"}
+                variant={filter.tags?.includes(tag) ? 'default' : 'outline'}
                 className="cursor-pointer"
                 onClick={() => handleTagClick(tag)}
               >

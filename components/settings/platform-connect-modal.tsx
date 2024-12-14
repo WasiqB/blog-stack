@@ -1,21 +1,21 @@
-"use client";
+"use client"
 
-import { useState } from "react";
+import { useState } from 'react';
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { connectHashnode } from "@/lib/platform/hashnode";
-import { getMediumAuthUrl } from "@/lib/platform/medium";
-import { toast } from "sonner";
+} from '@/components/ui/dialog';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { connectHashnode } from '@/lib/platform/hashnode';
+import { getMediumAuthUrl } from '@/lib/platform/medium';
+import { toast } from 'sonner';
 
 interface PlatformConnectModalProps {
-  platform: "medium" | "hashnode";
+  platform: 'medium' | 'hashnode';
   isOpen: boolean;
   onClose: () => void;
   onSuccess: () => void;
@@ -27,18 +27,18 @@ export function PlatformConnectModal({
   onClose,
   onSuccess,
 }: PlatformConnectModalProps) {
-  const [token, setToken] = useState("");
+  const [token, setToken] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
   const handleConnect = async () => {
     setIsLoading(true);
     try {
-      if (platform === "medium") {
+      if (platform === 'medium') {
         const authUrl = await getMediumAuthUrl();
         window.location.href = authUrl;
       } else {
         await connectHashnode(token);
-        toast.success("Hashnode account connected successfully");
+        toast.success('Hashnode account connected successfully');
         onSuccess();
         onClose();
       }
@@ -54,12 +54,12 @@ export function PlatformConnectModal({
       <DialogContent>
         <DialogHeader>
           <DialogTitle>
-            Connect {platform === "medium" ? "Medium" : "Hashnode"} Account
+            Connect {platform === 'medium' ? 'Medium' : 'Hashnode'} Account
           </DialogTitle>
         </DialogHeader>
 
         <div className="space-y-4 py-4">
-          {platform === "hashnode" ? (
+          {platform === 'hashnode' ? (
             <div className="space-y-2">
               <Label htmlFor="token">API Token</Label>
               <Input
@@ -80,10 +80,10 @@ export function PlatformConnectModal({
 
           <Button
             onClick={handleConnect}
-            disabled={(platform === "hashnode" && !token) || isLoading}
+            disabled={platform === 'hashnode' && !token || isLoading}
             className="w-full"
           >
-            {isLoading ? "Connecting..." : "Connect Account"}
+            {isLoading ? 'Connecting...' : 'Connect Account'}
           </Button>
         </div>
       </DialogContent>

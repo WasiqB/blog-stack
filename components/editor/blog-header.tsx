@@ -1,10 +1,10 @@
-"use client";
+"use client"
 
-import { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { ImagePlus } from "lucide-react";
+import { useState } from 'react';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { ImagePlus } from 'lucide-react';
 
 interface BlogHeaderProps {
   title: string;
@@ -13,12 +13,7 @@ interface BlogHeaderProps {
   onUpdate: (field: string, value: string) => void;
 }
 
-export function BlogHeader({
-  title,
-  tagline,
-  imageUrl,
-  onUpdate,
-}: BlogHeaderProps) {
+export function BlogHeader({ title, tagline, imageUrl, onUpdate }: BlogHeaderProps) {
   const [isUploading, setIsUploading] = useState(false);
 
   const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -30,9 +25,9 @@ export function BlogHeader({
       // TODO: Implement image upload to Supabase storage
       // For now, we'll use a placeholder URL
       const imageUrl = URL.createObjectURL(file);
-      onUpdate("imageUrl", imageUrl);
+      onUpdate('imageUrl', imageUrl);
     } catch (error) {
-      console.error("Error uploading image:", error);
+      console.error('Error uploading image:', error);
     } finally {
       setIsUploading(false);
     }
@@ -45,18 +40,18 @@ export function BlogHeader({
         <Input
           id="title"
           value={title}
-          onChange={(e) => onUpdate("title", e.target.value)}
+          onChange={(e) => onUpdate('title', e.target.value)}
           placeholder="Enter your blog title"
           className="text-lg"
         />
       </div>
-
+      
       <div>
         <Label htmlFor="tagline">Tagline</Label>
         <Input
           id="tagline"
           value={tagline}
-          onChange={(e) => onUpdate("tagline", e.target.value)}
+          onChange={(e) => onUpdate('tagline', e.target.value)}
           placeholder="A brief description of your blog"
         />
       </div>
@@ -73,11 +68,11 @@ export function BlogHeader({
           )}
           <Button
             variant="outline"
-            onClick={() => document.getElementById("image-upload")?.click()}
+            onClick={() => document.getElementById('image-upload')?.click()}
             disabled={isUploading}
           >
             <ImagePlus className="mr-2 h-4 w-4" />
-            {imageUrl ? "Change Image" : "Add Cover Image"}
+            {imageUrl ? 'Change Image' : 'Add Cover Image'}
           </Button>
           <input
             id="image-upload"

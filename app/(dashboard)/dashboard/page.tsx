@@ -1,28 +1,27 @@
-"use client";
+"use client"
 
-import { useState } from "react";
-import Link from "next/link";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Button } from "@/components/ui/button";
-import { BlogFilters } from "@/components/dashboard/blog-filters";
-import { BlogCard } from "@/components/dashboard/blog-card";
-import { useBlogs } from "@/lib/hooks/use-blogs";
-import { PenLine } from "lucide-react";
+import { useState } from 'react';
+import Link from 'next/link';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Button } from '@/components/ui/button';
+import { BlogFilters } from '@/components/dashboard/blog-filters';
+import { BlogCard } from '@/components/dashboard/blog-card';
+import { useBlogs } from '@/lib/hooks/use-blogs';
+import { PenLine } from 'lucide-react';
 
 export default function DashboardPage() {
-  const [activeTab, setActiveTab] = useState<
-    "published" | "draft" | "scheduled"
-  >("published");
-  const { blogs, isLoading, filter, setFilter, availableTags } = useBlogs({
-    status: activeTab,
-  });
+  const [activeTab, setActiveTab] = useState<'published' | 'drafts'>('published');
+  const {
+    blogs,
+    isLoading,
+    filter,
+    setFilter,
+    availableTags,
+  } = useBlogs({ status: activeTab });
 
   const handleTabChange = (value: string) => {
-    setActiveTab(value as "published" | "draft" | "scheduled");
-    setFilter({
-      ...filter,
-      status: value as "published" | "draft" | "scheduled",
-    });
+    setActiveTab(value as 'published' | 'drafts');
+    setFilter({ ...filter, status: value as 'published' | 'drafts' });
   };
 
   return (
@@ -37,11 +36,7 @@ export default function DashboardPage() {
         </Button>
       </div>
 
-      <Tabs
-        value={activeTab}
-        onValueChange={handleTabChange}
-        className="space-y-4"
-      >
+      <Tabs value={activeTab} onValueChange={handleTabChange} className="space-y-4">
         <div className="flex justify-between items-center">
           <TabsList>
             <TabsTrigger value="published">Published</TabsTrigger>
@@ -63,7 +58,9 @@ export default function DashboardPage() {
               No published blogs found
             </div>
           ) : (
-            blogs.map((blog) => <BlogCard key={blog.id} blog={blog} />)
+            blogs.map((blog) => (
+              <BlogCard key={blog.id} blog={blog} />
+            ))
           )}
         </TabsContent>
 
@@ -75,7 +72,9 @@ export default function DashboardPage() {
               No drafts found
             </div>
           ) : (
-            blogs.map((blog) => <BlogCard key={blog.id} blog={blog} />)
+            blogs.map((blog) => (
+              <BlogCard key={blog.id} blog={blog} />
+            ))
           )}
         </TabsContent>
       </Tabs>

@@ -1,0 +1,59 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("SUPABASE_DB_URL")
+}
+
+model User {
+  id         String   @id @default(uuid())
+  email      String   @unique
+  fullName   String?
+  avatarUrl  String?
+  bio        String?
+  website    String?
+  twitter    String?
+  createdAt  DateTime @default(now()) @map("created_at")
+  updatedAt  DateTime @updatedAt @map("updated_at")
+  blogs      Blog[]
+  platforms  PlatformToken[]
+
+  @@map("users")
+}
+
+model Blog {
+  id           String    @id @default(uuid())
+  title        String
+  tagline      String?
+  content      String
+  imageUrl     String?   @map("image_url")
+  status       String    @default("draft")
+  tags         String[]
+  viewCount    Int       @default(0) @map("view_count")
+  commentCount Int       @default(0) @map("comment_count")
+  authorId     String    @map("author_id")
+  createdAt    DateTime  @default(now()) @map("created_at")
+  updatedAt    DateTime  @updatedAt @map("updated_at")
+  publishedAt  DateTime? @map("published_at")
+  scheduledFor DateTime? @map("scheduled_for")
+  platforms    Json      @default("{}")
+  author       User      @relation(fields: [authorId], references: [id])
+
+  @@map("blogs")
+}
+
+model PlatformToken {
+  id        String   @id @default(uuid())
+  platform  String
+  token     String
+  profile   Json
+  userId    String   @map("user_id")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+  user      User     @relation(fields: [userId], references: [id])
+
+  @@unique([userId, platform])
+  @@map("platform_tokens")
+}

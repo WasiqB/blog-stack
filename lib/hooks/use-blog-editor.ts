@@ -1,8 +1,9 @@
-"use client";
+"use client"
 
-import { useState, useCallback } from "react";
-import { createClient } from "@/lib/supabase/client";
-import { toast } from "sonner";
+import { useState, useCallback } from 'react';
+import { Blog } from '@/lib/types/blog';
+import { createBlog, updateBlog } from '@/lib/services/blog-service';
+import { toast } from 'sonner';
 
 interface BlogState {
   title: string;
@@ -14,84 +15,57 @@ interface BlogState {
 
 export function useBlogEditor(initialBlog?: Partial<BlogState>) {
   const [blog, setBlog] = useState<BlogState>({
-    title: initialBlog?.title || "",
-    tagline: initialBlog?.tagline || "",
-    imageUrl: initialBlog?.imageUrl || "",
-    content: initialBlog?.content || "",
+    title: initialBlog?.title || '',
+    tagline: initialBlog?.tagline || '',
+    imageUrl: initialBlog?.imageUrl || '',
+    content: initialBlog?.content || '',
     tags: initialBlog?.tags || [],
   });
 
   const [isSaving, setIsSaving] = useState(false);
-  const supabase = createClient();
 
-  const updateBlog = useCallback((field: keyof BlogState, value: any) => {
-    setBlog((prev) => ({ ...prev, [field]: value }));
+  const updateField = useCallback((field: keyof BlogState, value: any) => {
+    setBlog(prev => ({ ...prev, [field]: value }));
   }, []);
 
   const saveDraft = useCallback(async () => {
     if (!blog.title.trim()) {
-      blog.title = "Untitled Blog";
+      blog.title = 'Untitled Blog';
     }
 
     setIsSaving(true);
     try {
-      const { data: userData, error: userError } =
-        await supabase.auth.getUser();
-      if (userError) throw userError;
-
-      const { error } = await supabase.from("blogs").insert({
-        title: blog.title,
-        tagline: blog.tagline,
-        content: blog.content,
-        image_url: blog.imageUrl,
-        tags: blog.tags,
-        status: "draft",
-        author_id: userData.user.id,
+      await createBlog({
+        ...blog,
+        status: 'draft',
       });
-
-      if (error) throw error;
-      toast.success("Draft saved successfully");
+      toast.success('Draft saved successfully');
     } catch (error: any) {
-      toast.error("Failed to save draft: " + error.message);
+      toast.error('Failed to save draft: ' + error.message);
+      throw error;
     } finally {
       setIsSaving(false);
     }
-  }, [blog, supabase]);
+  }, [blog]);
 
-  const scheduleBlog = useCallback(
-    async (
-      publishDate: Date,
-      platforms: { medium: boolean; hashnode: boolean }
-    ) => {
-      try {
-        const { data: userData, error: userError } =
-          await supabase.auth.getUser();
-        if (userError) throw userError;
-
-        const { error } = await supabase.from("blogs").insert({
-          title: blog.title || "Untitled Blog",
-          tagline: blog.tagline,
-          content: blog.content,
-          image_url: blog.imageUrl,
-          tags: blog.tags,
-          status: "scheduled",
-          author_id: userData.user.id,
-          scheduled_for: publishDate.toISOString(),
-          platforms,
-        });
-
-        if (error) throw error;
-        toast.success("Blog scheduled successfully");
-      } catch (error: any) {
-        toast.error("Failed to schedule blog: " + error.message);
-      }
-    },
-    [blog, supabase]
-  );
+  const scheduleBlog = useCallback(async (publishDate: Date, platforms: { medium: boolean; hashnode: boolean }) => {
+    try {
+      await createBlog({
+        ...blog,
+        status: 'scheduled',
+        scheduledFor: publishDate,
+        platforms,
+      });
+      toast.success('Blog scheduled successfully');
+    } catch (error: any) {
+      toast.error('Failed to schedule blog: ' + error.message);
+      throw error;
+    }
+  }, [blog]);
 
   return {
     blog,
-    updateBlog,
+    updateField,
     saveDraft,
     scheduleBlog,
     isSaving,

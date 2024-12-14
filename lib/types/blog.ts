@@ -4,7 +4,7 @@ export interface Blog {
   tagline?: string;
   content: string;
   image_url?: string;
-  status: "draft" | "published" | "scheduled";
+  status: 'draft' | 'published' | 'scheduled';
   tags: string[];
   view_count: number;
   comment_count: number;
@@ -20,7 +20,7 @@ export interface Blog {
 }
 
 export interface BlogFilter {
-  status?: "draft" | "published" | "scheduled";
+  status?: 'draft' | 'published' | 'scheduled';
   tags?: string[];
-  sortBy?: "newest" | "oldest" | "popular";
+  sortBy?: 'newest' | 'oldest' | 'popular';
 }
