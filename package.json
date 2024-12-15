@@ -44,9 +44,7 @@
     "@radix-ui/react-tooltip": "^1.1.2",
     "@supabase/auth-helpers-nextjs": "^0.10.0",
     "@supabase/ssr": "^0.5.2",
-    "@supabase/supabase-js": "^2.47.7",
-    "@types/node": "22.10.2",
-    "@types/react": "19.0.1",
+    "@supabase/supabase-js": "^2.39.0",
     "@types/react-dom": "19.0.2",
     "@uiw/react-markdown-editor": "^6.0.0",
     "@uiw/react-markdown-preview": "^5.0.0",
@@ -73,11 +71,13 @@
     "tailwind-merge": "^2.5.2",
     "tailwindcss": "3.4.16",
     "tailwindcss-animate": "^1.0.7",
-    "typescript": "5.7.2",
     "vaul": "^1.1.2",
     "zod": "^3.23.8"
   },
   "devDependencies": {
-    "prisma": "^5.10.2"
+    "@types/node": "22.10.2",
+    "@types/react": "19.0.1",
+    "prisma": "^6.0.1",
+    "typescript": "5.7.2"
   }
 }

@@ -1,29 +1,15 @@
 "use client";
 
-import dynamic from "next/dynamic";
+import { BlogHeader } from "@/components/editor/header/blog-header";
+import { TagInput } from "@/components/editor/tags/tag-input";
+import { BlogEditor } from "@/components/editor/content/markdown-editor";
+import { ScheduleModal } from "@/components/editor/publish/schedule-modal";
 import { Button } from "@/components/ui/button";
-import { BlogHeader } from "@/components/editor/blog-header";
-import { TagInput } from "@/components/editor/tag-input";
-import { ScheduleModal } from "@/components/editor/schedule-modal";
-import { Eye } from "lucide-react";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useBlogEditor } from "@/lib/hooks/use-blog-editor";
-import { useState } from "react";
-
-const MarkdownEditor = dynamic(
-  () => import("@uiw/react-markdown-editor").then((mod) => mod.default),
-  { ssr: false }
-);
-
-const MarkdownPreview = dynamic(
-  () => import("@uiw/react-markdown-preview").then((mod) => mod.default),
-  { ssr: false }
-);
 
 export default function WritePage() {
-  const { blog, updateBlog, saveDraft, scheduleBlog, isSaving } =
+  const { blog, updateField, saveDraft, scheduleBlog, isSaving } =
     useBlogEditor();
-  const [activeTab, setActiveTab] = useState("write");
 
   return (
     <div className="container mx-auto p-6 max-w-5xl">
@@ -42,41 +28,18 @@ export default function WritePage() {
           title={blog.title}
           tagline={blog.tagline}
           imageUrl={blog.imageUrl}
-          onUpdate={updateBlog}
+          onUpdate={updateField}
         />
 
         <TagInput
           tags={blog.tags}
-          onUpdate={(tags) => updateBlog("tags", tags)}
+          onUpdate={(tags) => updateField("tags", tags)}
         />
 
-        <Tabs
-          value={activeTab}
-          onValueChange={setActiveTab}
-          className="space-y-4"
-        >
-          <TabsList>
-            <TabsTrigger value="write">Write</TabsTrigger>
-            <TabsTrigger value="preview">
-              <Eye className="mr-2 h-4 w-4" />
-              Preview
-            </TabsTrigger>
-          </TabsList>
-
-          <TabsContent value="write" className="min-h-[500px]">
-            <MarkdownEditor
-              value={blog.content}
-              onChange={(value) => updateBlog("content", value)}
-              className="h-[500px]"
-            />
-          </TabsContent>
-
-          <TabsContent value="preview" className="min-h-[500px]">
-            <div className="prose prose-neutral dark:prose-invert max-w-none">
-              <MarkdownPreview source={blog.content} />
-            </div>
-          </TabsContent>
-        </Tabs>
+        <BlogEditor
+          content={blog.content}
+          onChange={(value) => updateField("content", value)}
+        />
       </div>
     </div>
   );
