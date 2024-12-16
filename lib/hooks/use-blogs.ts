@@ -1,11 +1,11 @@
-"use client"
+"use client";
 
-import { useState, useEffect } from 'react';
-import { Blog, BlogFilter } from '@/lib/types/blog';
-import { getBlogs } from '@/lib/services/blog-service';
-import { toast } from 'sonner';
+import { useState, useEffect } from "react";
+import { Blog, BlogFilter } from "@/lib/types/blog";
+import { getBlogs } from "@/lib/services/blog-service";
+import { toast } from "sonner";
 
-export function useBlogs(initialFilter: BlogFilter = { status: 'published' }) {
+export function useBlogs(initialFilter: BlogFilter = { status: "published" }) {
   const [blogs, setBlogs] = useState<Blog[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [filter, setFilter] = useState<BlogFilter>(initialFilter);
@@ -19,19 +19,19 @@ export function useBlogs(initialFilter: BlogFilter = { status: 'published' }) {
     setIsLoading(true);
     try {
       const result = await getBlogs({
-        status: filter.status || 'published',
+        status: filter.status || "published",
         tags: filter.tags,
         sortBy: filter.sortBy,
       });
 
       setBlogs(result);
-      
+
       // Extract unique tags
       const tags = new Set<string>();
-      result.forEach(blog => blog.tags.forEach(tag => tags.add(tag)));
+      result.forEach((blog) => blog.tags.forEach((tag) => tags.add(tag)));
       setAvailableTags(Array.from(tags));
     } catch (error: any) {
-      toast.error('Failed to fetch blogs: ' + error.message);
+      toast.error("Failed to fetch blogs: " + error.message);
     } finally {
       setIsLoading(false);
     }

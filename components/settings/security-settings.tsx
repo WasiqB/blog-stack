@@ -1,10 +1,10 @@
-"use client"
+"use client";
 
-import { useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import * as z from 'zod';
-import { Button } from '@/components/ui/button';
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
+import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -12,19 +12,23 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { createClient } from '@/lib/supabase/client';
-import { toast } from 'sonner';
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { createClient } from "@/lib/supabase/client";
+import { toast } from "sonner";
 
-const passwordSchema = z.object({
-  currentPassword: z.string().min(6, 'Password must be at least 6 characters'),
-  newPassword: z.string().min(6, 'Password must be at least 6 characters'),
-  confirmPassword: z.string(),
-}).refine((data) => data.newPassword === data.confirmPassword, {
-  message: "Passwords don't match",
-  path: ["confirmPassword"],
-});
+const passwordSchema = z
+  .object({
+    currentPassword: z
+      .string()
+      .min(6, "Password must be at least 6 characters"),
+    newPassword: z.string().min(6, "Password must be at least 6 characters"),
+    confirmPassword: z.string(),
+  })
+  .refine((data) => data.newPassword === data.confirmPassword, {
+    message: "Passwords don't match",
+    path: ["confirmPassword"],
+  });
 
 export function SecuritySettings() {
   const [isLoading, setIsLoading] = useState(false);
@@ -38,14 +42,14 @@ export function SecuritySettings() {
     setIsLoading(true);
     try {
       const { error } = await supabase.auth.updateUser({
-        password: values.newPassword
+        password: values.newPassword,
       });
 
       if (error) throw error;
-      toast.success('Password updated successfully');
+      toast.success("Password updated successfully");
       form.reset();
     } catch (error: any) {
-      toast.error('Failed to update password: ' + error.message);
+      toast.error("Failed to update password: " + error.message);
     } finally {
       setIsLoading(false);
     }
@@ -105,7 +109,7 @@ export function SecuritySettings() {
           />
 
           <Button type="submit" disabled={isLoading}>
-            {isLoading ? 'Updating...' : 'Update Password'}
+            {isLoading ? "Updating..." : "Update Password"}
           </Button>
         </form>
       </Form>

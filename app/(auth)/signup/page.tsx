@@ -1,6 +1,6 @@
-import Link from 'next/link';
-import { AuthForm } from '@/components/auth/auth-form';
-import { Button } from '@/components/ui/button';
+import Link from "next/link";
+import { AuthForm } from "@/components/auth/auth-form";
+import { Button } from "@/components/ui/button";
 
 export default function SignUpPage() {
   return (
@@ -17,7 +17,9 @@ export default function SignUpPage() {
           <AuthForm type="signup" />
 
           <div className="mt-6 text-center text-sm">
-            <span className="text-muted-foreground">Already have an account? </span>
+            <span className="text-muted-foreground">
+              Already have an account?{" "}
+            </span>
             <Button variant="link" className="p-0" asChild>
               <Link href="/login">Sign in</Link>
             </Button>

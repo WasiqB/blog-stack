@@ -1,10 +1,10 @@
-"use client"
+"use client";
 
-import { useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import * as z from 'zod';
-import { Button } from '@/components/ui/button';
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
+import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -12,18 +12,18 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { ImagePlus } from 'lucide-react';
-import { createClient } from '@/lib/supabase/client';
-import { toast } from 'sonner';
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { ImagePlus } from "lucide-react";
+import { createClient } from "@/lib/supabase/client";
+import { toast } from "sonner";
 
 const profileSchema = z.object({
-  fullName: z.string().min(2, 'Name must be at least 2 characters'),
-  bio: z.string().max(160, 'Bio must be less than 160 characters'),
-  website: z.string().url('Invalid URL').optional().or(z.literal('')),
+  fullName: z.string().min(2, "Name must be at least 2 characters"),
+  bio: z.string().max(160, "Bio must be less than 160 characters"),
+  website: z.string().url("Invalid URL").optional().or(z.literal("")),
   twitter: z.string().optional(),
 });
 
@@ -34,21 +34,24 @@ export function ProfileSettings() {
   const form = useForm<z.infer<typeof profileSchema>>({
     resolver: zodResolver(profileSchema),
     defaultValues: {
-      fullName: '',
-      bio: '',
-      website: '',
-      twitter: '',
+      fullName: "",
+      bio: "",
+      website: "",
+      twitter: "",
     },
   });
 
   const onSubmit = async (values: z.infer<typeof profileSchema>) => {
     setIsLoading(true);
     try {
-      const { data: { user }, error: userError } = await supabase.auth.getUser();
+      const {
+        data: { user },
+        error: userError,
+      } = await supabase.auth.getUser();
       if (userError) throw userError;
 
-      const { error } = await supabase.from('profiles').upsert({
-        id: user.id,
+      const { error } = await supabase.from("profiles").upsert({
+        id: user?.id,
         full_name: values.fullName,
         bio: values.bio,
         website: values.website,
@@ -57,9 +60,9 @@ export function ProfileSettings() {
       });
 
       if (error) throw error;
-      toast.success('Profile updated successfully');
+      toast.success("Profile updated successfully");
     } catch (error: any) {
-      toast.error('Failed to update profile: ' + error.message);
+      toast.error("Failed to update profile: " + error.message);
     } finally {
       setIsLoading(false);
     }
@@ -140,7 +143,7 @@ export function ProfileSettings() {
           />
 
           <Button type="submit" disabled={isLoading}>
-            {isLoading ? 'Saving...' : 'Save Changes'}
+            {isLoading ? "Saving..." : "Save Changes"}
           </Button>
         </form>
       </Form>

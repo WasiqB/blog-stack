@@ -1,9 +1,9 @@
-"use client"
+"use client";
 
-import Link from 'next/link';
-import { useTheme } from 'next-themes';
-import { Button } from '@/components/ui/button';
-import { Moon, Sun } from 'lucide-react';
+import Link from "next/link";
+import { useTheme } from "next-themes";
+import { Button } from "@/components/ui/button";
+import { Moon, Sun } from "lucide-react";
 
 export function Navbar() {
   const { theme, setTheme } = useTheme();
@@ -20,9 +20,9 @@ export function Navbar() {
             <Button
               variant="ghost"
               size="icon"
-              onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+              onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
             >
-              {theme === 'dark' ? (
+              {theme === "dark" ? (
                 <Sun className="h-5 w-5" />
               ) : (
                 <Moon className="h-5 w-5" />

@@ -1,39 +1,39 @@
-"use client"
+"use client";
 
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
-import { cn } from '@/lib/utils';
-import { Button } from '@/components/ui/button';
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
 import {
   LayoutDashboard,
   PenLine,
   Calendar,
   Settings,
   LogOut,
-} from 'lucide-react';
-import { createClient } from '@/lib/supabase/client';
-import { useRouter } from 'next/navigation';
-import { toast } from 'sonner';
+} from "lucide-react";
+import { createClient } from "@/lib/supabase/client";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 const sidebarLinks = [
   {
-    title: 'Dashboard',
-    href: '/dashboard',
+    title: "Dashboard",
+    href: "/dashboard",
     icon: LayoutDashboard,
   },
   {
-    title: 'Write',
-    href: '/dashboard/write',
+    title: "Write",
+    href: "/dashboard/write",
     icon: PenLine,
   },
   {
-    title: 'Schedule',
-    href: '/dashboard/schedule',
+    title: "Schedule",
+    href: "/dashboard/schedule",
     icon: Calendar,
   },
   {
-    title: 'Settings',
-    href: '/dashboard/settings',
+    title: "Settings",
+    href: "/dashboard/settings",
     icon: Settings,
   },
 ];
@@ -46,9 +46,9 @@ export function Sidebar() {
   const handleSignOut = async () => {
     const { error } = await supabase.auth.signOut();
     if (error) {
-      toast.error('Error signing out');
+      toast.error("Error signing out");
     } else {
-      router.push('/');
+      router.push("/");
       router.refresh();
     }
   };
@@ -65,10 +65,10 @@ export function Sidebar() {
             return (
               <Button
                 key={link.href}
-                variant={pathname === link.href ? 'secondary' : 'ghost'}
+                variant={pathname === link.href ? "secondary" : "ghost"}
                 className={cn(
-                  'w-full justify-start',
-                  pathname === link.href && 'bg-secondary'
+                  "w-full justify-start",
+                  pathname === link.href && "bg-secondary"
                 )}
                 asChild
               >

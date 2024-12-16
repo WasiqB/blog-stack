@@ -1,16 +1,19 @@
-import { prisma } from '@/lib/prisma';
-import { BlogFilter } from '@/lib/types/blog';
+import { prisma } from "@/lib/prisma";
+import { BlogFilter } from "@/lib/types/blog";
 
-export async function createBlog(userId: string, data: {
-  title: string;
-  tagline?: string;
-  content: string;
-  imageUrl?: string;
-  tags: string[];
-  status: 'draft' | 'published' | 'scheduled';
-  scheduledFor?: Date;
-  platforms?: Record<string, boolean>;
-}) {
+export async function createBlog(
+  userId: string,
+  data: {
+    title: string;
+    tagline?: string;
+    content: string;
+    imageUrl?: string;
+    tags: string[];
+    status: "draft" | "published" | "scheduled";
+    scheduledFor?: Date;
+    platforms?: Record<string, boolean>;
+  }
+) {
   return prisma.blog.create({
     data: {
       ...data,
@@ -28,16 +31,20 @@ export async function createBlog(userId: string, data: {
   });
 }
 
-export async function updateBlog(blogId: string, userId: string, data: {
-  title?: string;
-  tagline?: string;
-  content?: string;
-  imageUrl?: string;
-  tags?: string[];
-  status?: 'draft' | 'published' | 'scheduled';
-  scheduledFor?: Date;
-  platforms?: Record<string, boolean>;
-}) {
+export async function updateBlog(
+  blogId: string,
+  userId: string,
+  data: {
+    title?: string;
+    tagline?: string;
+    content?: string;
+    imageUrl?: string;
+    tags?: string[];
+    status?: "draft" | "published" | "scheduled";
+    scheduledFor?: Date;
+    platforms?: Record<string, boolean>;
+  }
+) {
   return prisma.blog.update({
     where: {
       id: blogId,
@@ -82,15 +89,15 @@ export async function getBlogById(blogId: string) {
 
 export async function getBlogs(filter: BlogFilter & { authorId?: string }) {
   const where: any = {};
-  
+
   if (filter.status) {
     where.status = filter.status;
   }
-  
+
   if (filter.authorId) {
     where.authorId = filter.authorId;
   }
-  
+
   if (filter.tags?.length) {
     where.tags = {
       hasEvery: filter.tags,
@@ -99,14 +106,14 @@ export async function getBlogs(filter: BlogFilter & { authorId?: string }) {
 
   const orderBy: any = {};
   switch (filter.sortBy) {
-    case 'oldest':
-      orderBy.createdAt = 'asc';
+    case "oldest":
+      orderBy.createdAt = "asc";
       break;
-    case 'popular':
-      orderBy.viewCount = 'desc';
+    case "popular":
+      orderBy.viewCount = "desc";
       break;
     default:
-      orderBy.createdAt = 'desc';
+      orderBy.createdAt = "desc";
   }
 
   return prisma.blog.findMany({

@@ -1,6 +1,6 @@
-import Link from 'next/link';
-import { Button } from '@/components/ui/button';
-import { PenLine, Rocket, Calendar, Share2 } from 'lucide-react';
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { PenLine, Rocket, Calendar, Share2 } from "lucide-react";
 
 export default function Home() {
   return (
@@ -13,8 +13,9 @@ export default function Home() {
               Write Once, Publish Everywhere
             </h1>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto mb-8">
-              Create, schedule, and publish your blogs across multiple platforms with ease. 
-              Connect your Medium and Hashnode accounts to reach a wider audience.
+              Create, schedule, and publish your blogs across multiple platforms
+              with ease. Connect your Medium and Hashnode accounts to reach a
+              wider audience.
             </p>
             <div className="flex justify-center gap-4">
               <Button size="lg" asChild>
@@ -34,9 +35,12 @@ export default function Home() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="p-6 bg-card rounded-lg shadow-sm">
               <PenLine className="w-12 h-12 text-primary mb-4" />
-              <h3 className="text-xl font-semibold mb-2">Rich Markdown Editor</h3>
+              <h3 className="text-xl font-semibold mb-2">
+                Rich Markdown Editor
+              </h3>
               <p className="text-muted-foreground">
-                Write your blogs with our powerful markdown editor with live preview support.
+                Write your blogs with our powerful markdown editor with live
+                preview support.
               </p>
             </div>
             <div className="p-6 bg-card rounded-lg shadow-sm">
@@ -48,7 +52,9 @@ export default function Home() {
             </div>
             <div className="p-6 bg-card rounded-lg shadow-sm">
               <Share2 className="w-12 h-12 text-primary mb-4" />
-              <h3 className="text-xl font-semibold mb-2">Cross-Platform Publishing</h3>
+              <h3 className="text-xl font-semibold mb-2">
+                Cross-Platform Publishing
+              </h3>
               <p className="text-muted-foreground">
                 Publish simultaneously to Medium, Hashnode, and more platforms.
               </p>
@@ -60,9 +66,12 @@ export default function Home() {
       {/* CTA Section */}
       <section className="py-20 px-4 sm:px-6 lg:px-8">
         <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-3xl font-bold mb-6">Ready to Start Your Blogging Journey?</h2>
+          <h2 className="text-3xl font-bold mb-6">
+            Ready to Start Your Blogging Journey?
+          </h2>
           <p className="text-lg text-muted-foreground mb-8">
-            Join thousands of writers who trust our platform for their content management needs.
+            Join thousands of writers who trust our platform for their content
+            management needs.
           </p>
           <Button size="lg" asChild>
             <Link href="/signup">Start Writing Now</Link>

@@ -1,11 +1,11 @@
-"use client"
+"use client";
 
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
-import * as z from 'zod';
-import { Button } from '@/components/ui/button';
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import * as z from "zod";
+import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -13,19 +13,19 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { toast } from 'sonner';
-import { createClient } from '@/lib/supabase/client';
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { toast } from "sonner";
+import { createClient } from "@/lib/supabase/client";
 
 const formSchema = z.object({
-  email: z.string().email('Invalid email address'),
-  password: z.string().min(6, 'Password must be at least 6 characters'),
+  email: z.string().email("Invalid email address"),
+  password: z.string().min(6, "Password must be at least 6 characters"),
   fullName: z.string().optional(),
 });
 
 interface AuthFormProps {
-  type: 'login' | 'signup';
+  type: "login" | "signup";
 }
 
 export function AuthForm({ type }: AuthFormProps) {
@@ -36,16 +36,16 @@ export function AuthForm({ type }: AuthFormProps) {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      email: '',
-      password: '',
-      fullName: '',
+      email: "",
+      password: "",
+      fullName: "",
     },
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     setIsLoading(true);
     try {
-      if (type === 'signup') {
+      if (type === "signup") {
         const { error } = await supabase.auth.signUp({
           email: values.email,
           password: values.password,
@@ -56,19 +56,21 @@ export function AuthForm({ type }: AuthFormProps) {
           },
         });
         if (error) throw error;
-        toast.success('Account created successfully! Please check your email to verify your account.');
+        toast.success(
+          "Account created successfully! Please check your email to verify your account."
+        );
       } else {
         const { error } = await supabase.auth.signInWithPassword({
           email: values.email,
           password: values.password,
         });
         if (error) throw error;
-        toast.success('Welcome back!');
-        router.push('/dashboard');
+        toast.success("Welcome back!");
+        router.push("/dashboard");
         router.refresh();
       }
     } catch (error: any) {
-      toast.error(error.message || 'Authentication failed. Please try again.');
+      toast.error(error.message || "Authentication failed. Please try again.");
     } finally {
       setIsLoading(false);
     }
@@ -77,7 +79,7 @@ export function AuthForm({ type }: AuthFormProps) {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-        {type === 'signup' && (
+        {type === "signup" && (
           <FormField
             control={form.control}
             name="fullName"
@@ -92,7 +94,7 @@ export function AuthForm({ type }: AuthFormProps) {
             )}
           />
         )}
-        
+
         <FormField
           control={form.control}
           name="email"
@@ -122,13 +124,11 @@ export function AuthForm({ type }: AuthFormProps) {
         />
 
         <Button type="submit" className="w-full" disabled={isLoading}>
-          {isLoading ? (
-            "Loading..."
-          ) : type === 'login' ? (
-            "Sign In"
-          ) : (
-            "Create Account"
-          )}
+          {isLoading
+            ? "Loading..."
+            : type === "login"
+            ? "Sign In"
+            : "Create Account"}
         </Button>
       </form>
     </Form>

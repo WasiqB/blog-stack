@@ -1,22 +1,24 @@
-"use client"
+"use client";
 
-import { useState } from 'react';
-import { Calendar } from '@/components/ui/calendar';
+import { useState } from "react";
+import { Calendar } from "@/components/ui/calendar";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@/components/ui/dialog';
-import { Button } from '@/components/ui/button';
-import { Checkbox } from '@/components/ui/checkbox';
-import { Label } from '@/components/ui/label';
-import { CalendarIcon } from 'lucide-react';
-import { format } from 'date-fns';
+} from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Label } from "@/components/ui/label";
+import { CalendarIcon } from "lucide-react";
 
 interface ScheduleModalProps {
-  onSchedule: (date: Date, platforms: { medium: boolean; hashnode: boolean }) => void;
+  onSchedule: (
+    date: Date,
+    platforms: { medium: boolean; hashnode: boolean }
+  ) => void;
 }
 
 export function ScheduleModal({ onSchedule }: ScheduleModalProps) {
@@ -55,7 +57,7 @@ export function ScheduleModal({ onSchedule }: ScheduleModalProps) {
               disabled={(date) => date < new Date()}
             />
           </div>
-          
+
           <div className="space-y-4">
             <Label>Publish To</Label>
             <div className="space-y-2">
@@ -64,7 +66,10 @@ export function ScheduleModal({ onSchedule }: ScheduleModalProps) {
                   id="medium"
                   checked={platforms.medium}
                   onCheckedChange={(checked) =>
-                    setPlatforms(prev => ({ ...prev, medium: checked === true }))
+                    setPlatforms((prev) => ({
+                      ...prev,
+                      medium: checked === true,
+                    }))
                   }
                 />
                 <Label htmlFor="medium">Medium</Label>
@@ -74,7 +79,10 @@ export function ScheduleModal({ onSchedule }: ScheduleModalProps) {
                   id="hashnode"
                   checked={platforms.hashnode}
                   onCheckedChange={(checked) =>
-                    setPlatforms(prev => ({ ...prev, hashnode: checked === true }))
+                    setPlatforms((prev) => ({
+                      ...prev,
+                      hashnode: checked === true,
+                    }))
                   }
                 />
                 <Label htmlFor="hashnode">Hashnode</Label>

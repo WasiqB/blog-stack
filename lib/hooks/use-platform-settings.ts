@@ -1,8 +1,8 @@
-"use client"
+"use client";
 
-import { useState, useEffect } from 'react';
-import { createClient } from '@/lib/supabase/client';
-import { toast } from 'sonner';
+import { useState, useEffect } from "react";
+import { createClient } from "@/lib/supabase/client";
+import { toast } from "sonner";
 
 interface PlatformSettings {
   medium: boolean;
@@ -24,9 +24,9 @@ export function usePlatformSettings() {
   const fetchPlatformStatus = async () => {
     try {
       const { data } = await supabase
-        .from('platform_tokens')
-        .select('platform')
-        .in('platform', ['medium', 'hashnode']);
+        .from("platform_tokens")
+        .select("platform")
+        .in("platform", ["medium", "hashnode"]);
 
       const connected = {
         medium: false,
@@ -40,7 +40,7 @@ export function usePlatformSettings() {
       setPlatforms(connected);
       setIsLoading(false);
     } catch (error) {
-      console.error('Error fetching platform status:', error);
+      console.error("Error fetching platform status:", error);
       setIsLoading(false);
     }
   };
@@ -48,13 +48,13 @@ export function usePlatformSettings() {
   const disconnectPlatform = async (platform: keyof PlatformSettings) => {
     try {
       const { error } = await supabase
-        .from('platform_tokens')
+        .from("platform_tokens")
         .delete()
-        .eq('platform', platform);
+        .eq("platform", platform);
 
       if (error) throw error;
 
-      setPlatforms(prev => ({ ...prev, [platform]: false }));
+      setPlatforms((prev) => ({ ...prev, [platform]: false }));
       toast.success(`${platform} account disconnected`);
     } catch (error: any) {
       toast.error(`Failed to disconnect ${platform}: ${error.message}`);

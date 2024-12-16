@@ -13,7 +13,6 @@ import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import { CalendarIcon } from "lucide-react";
-import { format } from "date-fns";
 import { usePlatformSettings } from "@/lib/hooks/use-platform-settings";
 
 interface ScheduleModalProps {

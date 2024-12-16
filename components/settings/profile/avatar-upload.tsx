@@ -19,7 +19,7 @@ export function AvatarUpload() {
     setIsUploading(true);
     try {
       const avatarUrl = await uploadImage(file);
-      await updateProfile({ avatarUrl });
+      await updateProfile({ avatar_url: avatarUrl });
       toast.success("Avatar updated successfully");
     } catch (error) {
       toast.error("Failed to update avatar");

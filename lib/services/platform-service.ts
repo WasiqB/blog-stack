@@ -1,9 +1,13 @@
-import { prisma } from '@/lib/prisma';
+import { prisma } from "@/lib/prisma";
 
-export async function connectPlatform(userId: string, platform: string, data: {
-  token: string;
-  profile: any;
-}) {
+export async function connectPlatform(
+  userId: string,
+  platform: string,
+  data: {
+    token: string;
+    profile: any;
+  }
+) {
   return prisma.platformToken.upsert({
     where: {
       userId_platform: {

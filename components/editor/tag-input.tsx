@@ -1,10 +1,10 @@
-"use client"
+"use client";
 
-import { useState, KeyboardEvent } from 'react';
-import { Badge } from '@/components/ui/badge';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { X } from 'lucide-react';
+import { useState, KeyboardEvent } from "react";
+import { Badge } from "@/components/ui/badge";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { X } from "lucide-react";
 
 interface TagInputProps {
   tags: string[];
@@ -12,27 +12,27 @@ interface TagInputProps {
 }
 
 export function TagInput({ tags, onUpdate }: TagInputProps) {
-  const [input, setInput] = useState('');
+  const [input, setInput] = useState("");
 
   const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter' && input.trim()) {
+    if (e.key === "Enter" && input.trim()) {
       e.preventDefault();
       if (!tags.includes(input.trim())) {
         onUpdate([...tags, input.trim()]);
       }
-      setInput('');
+      setInput("");
     }
   };
 
   const removeTag = (tagToRemove: string) => {
-    onUpdate(tags.filter(tag => tag !== tagToRemove));
+    onUpdate(tags.filter((tag) => tag !== tagToRemove));
   };
 
   return (
     <div className="space-y-2">
       <Label htmlFor="tags">Tags</Label>
       <div className="flex flex-wrap gap-2 mb-2">
-        {tags.map(tag => (
+        {tags.map((tag) => (
           <Badge key={tag} variant="secondary" className="gap-1">
             {tag}
             <button

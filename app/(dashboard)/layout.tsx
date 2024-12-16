@@ -1,4 +1,4 @@
-import { Sidebar } from '@/components/dashboard/sidebar';
+import { Sidebar } from "@/components/dashboard/sidebar";
 
 export default function DashboardLayout({
   children,
@@ -10,9 +10,7 @@ export default function DashboardLayout({
       <div className="w-64 hidden md:block">
         <Sidebar />
       </div>
-      <main className="flex-1 overflow-y-auto">
-        {children}
-      </main>
+      <main className="flex-1 overflow-y-auto">{children}</main>
     </div>
   );
 }
